@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Country, Region, Activity, DayItinerary, TimeSlot } from '@/types';
+import { Country, Region, Activity, DayItinerary, TimeSlot, TripState } from '@/types';
 
 interface TripStore {
     selectedCountry: Country | null;
@@ -25,6 +25,7 @@ interface TripStore {
     initializeDays: () => void;
     autoPopulate: (activities: Activity[]) => void;
     clearItinerary: () => void;
+    clearActivities: () => void;
     saveToStorage: () => void;
     setTotalBudget: (amount: number) => void;
     setCurrency: (currency: string) => void;
@@ -37,6 +38,7 @@ interface TripStore {
     setOptimizedRoute: (route: Activity[]) => void;
     generateSuggestions: () => void;
     importOptimizedRoute: () => void;
+    loadTrip: (state: TripState) => void;
 }
 
 const generateTimeSlots = (startTime: string = '09:00'): TimeSlot[] => {
@@ -318,18 +320,14 @@ export const useTripStore = create<TripStore>((set, get) => {
             const { numberOfDays, selectedRegion, startDate } = get();
             if (!selectedRegion) return;
 
+            // Default to today if no start date is set, important for Calendar View
+            const effectiveStartDate = startDate ? new Date(startDate) : new Date();
+
             const itineraries: DayItinerary[] = [];
             for (let i = 1; i <= numberOfDays; i++) {
-                let dateStr = undefined;
-                if (startDate) {
-                    const date = new Date(startDate);
-                    date.setDate(date.getDate() + (i - 1));
-                    dateStr = date.toLocaleDateString('en-US', {
-                        weekday: 'short',
-                        month: 'short',
-                        day: 'numeric'
-                    });
-                }
+                const date = new Date(effectiveStartDate);
+                date.setDate(date.getDate() + (i - 1));
+                const dateStr = date.toDateString();
 
                 itineraries.push({
                     dayNumber: i,
@@ -403,6 +401,34 @@ export const useTripStore = create<TripStore>((set, get) => {
                 totalBudget: 0,
                 selectedDestinations: [],
                 optimizedRoute: [],
+            });
+            get().saveToStorage();
+        },
+
+        clearActivities: () => {
+            // Reset itineraries (clears timeslots/activities)
+            get().initializeDays();
+
+            set({
+                totalBudget: 0,
+                selectedDestinations: [],
+                optimizedRoute: [],
+            });
+            get().saveToStorage();
+        },
+
+        loadTrip: (state: TripState) => {
+            set({
+                selectedCountry: state.selectedCountry,
+                selectedRegion: state.selectedRegion,
+                numberOfDays: state.numberOfDays,
+                dailyItineraries: state.dailyItineraries,
+                currentDay: 1, // Reset to day 1 for better UX
+                startDate: state.startDate,
+                totalBudget: state.totalBudget,
+                currency: state.currency,
+                selectedDestinations: state.selectedDestinations || [],
+                optimizedRoute: state.optimizedRoute || [],
             });
             get().saveToStorage();
         },

@@ -73,3 +73,28 @@ export interface TripState {
     selectedDestinations?: Activity[];
     optimizedRoute?: Activity[];
 }
+
+export interface User {
+    id: string;
+    name: string;
+    avatar: string; // URL or emoji
+    followers: number;
+    bio?: string;
+}
+
+export interface CommunityPost {
+    id: string;
+    author: User;
+    title: string;
+    content: string; // Markdown supported
+    coverImage: string;
+    itinerarySnapshot: TripState;
+    stats: {
+        likes: number;
+        imports: number;
+        rating: number; // 1-5
+        ratingCount: number;
+    };
+    tags: string[]; // e.g. "Japan", "Food", "Budget"
+    createdAt: string;
+}

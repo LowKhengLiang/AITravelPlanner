@@ -11,9 +11,11 @@ import TripStats from '@/components/TripStats';
 import PackingList from '@/components/PackingList';
 import FlightOptions from '@/components/FlightOptions';
 import DestinationNews from '@/components/DestinationNews';
+import PublishButton from '@/components/PublishButton';
 import CalendarView from '@/components/CalendarView';
-import { Plane, Map, Sparkles, Trash2 } from 'lucide-react';
+import { Plane, Map, Sparkles, Trash2, Globe, Home } from 'lucide-react';
 import Link from 'next/link';
+import { useState, useEffect } from 'react';
 
 export default function HomePage() {
     const {
@@ -30,7 +32,14 @@ export default function HomePage() {
         removeActivity,
         autoPopulate,
         clearItinerary,
+        clearActivities,
     } = useTripStore();
+
+    const [isPlanning, setIsPlanning] = useState(false);
+
+    const handleStartPlanning = () => {
+        setIsPlanning(true);
+    };
 
     const currentItinerary = dailyItineraries.find((it) => it.dayNumber === currentDay);
 
@@ -57,8 +66,17 @@ export default function HomePage() {
                         </div>
 
                         <div className="flex items-center gap-3">
-                            {selectedRegion && dailyItineraries.length > 0 && (
+                            {isPlanning && (
                                 <>
+                                    <button
+                                        onClick={() => setIsPlanning(false)}
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-white/10 text-gray-300 font-medium hover:bg-white/10 transition-all duration-300"
+                                        title="Change Country/Region"
+                                    >
+                                        <Home className="w-4 h-4" />
+                                        <span className="hidden md:inline">Change Destination</span>
+                                    </button>
+
                                     <button
                                         onClick={handleAutoPopulate}
                                         className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
@@ -74,6 +92,14 @@ export default function HomePage() {
                                         Optimize
                                     </Link>
                                     <Link
+                                        href="/community"
+                                        className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-blue-400/30 text-blue-300 font-medium hover:bg-blue-400/20 transition-all duration-300"
+                                    >
+                                        <Globe className="w-4 h-4" />
+                                        Community
+                                    </Link>
+                                    <PublishButton />
+                                    <Link
                                         href="/map"
                                         className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-primary-500/30 text-white font-medium hover:bg-primary-500/20 transition-all duration-300"
                                     >
@@ -81,9 +107,9 @@ export default function HomePage() {
                                         View Map
                                     </Link>
                                     <button
-                                        onClick={clearItinerary}
+                                        onClick={clearActivities}
                                         className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-red-500/30 text-red-400 font-medium hover:bg-red-500/20 transition-all duration-300"
-                                        title="Clear itinerary"
+                                        title="Clear activities only"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                         Clear
@@ -97,39 +123,78 @@ export default function HomePage() {
 
             {/* Main Content */}
             <main className="container mx-auto px-4 py-8">
-                {/* Hero Section */}
-                {!selectedRegion && (
-                    <div className="text-center mb-12 animate-fade-in">
-                        <h2 className="text-5xl font-display font-bold text-white mb-4">
-                            Plan Your Dream <span className="text-transparent bg-gradient-to-r from-primary-400 to-coral-400 bg-clip-text">Adventure</span>
-                        </h2>
-                        <p className="text-gray-400 text-lg max-w-2xl mx-auto">
-                            Create personalized travel itineraries with AI-powered suggestions, interactive maps, and dynamic scheduling.
-                        </p>
+                {/* Landing State */}
+                {!isPlanning && (
+                    <div className="max-w-4xl mx-auto animate-fade-in">
+                        <div className="text-center mb-12">
+                            <h2 className="text-5xl md:text-7xl font-display font-bold text-white mb-6">
+                                Plan Your Dream <br />
+                                <span className="text-transparent bg-gradient-to-r from-primary-400 to-coral-400 bg-clip-text">Adventure</span>
+                            </h2>
+                            <p className="text-gray-400 text-xl max-w-2xl mx-auto mb-12">
+                                Create personalized travel itineraries with AI-powered suggestions, interactive maps, and dynamic scheduling.
+                            </p>
+
+                            <div className="glass p-8 rounded-2xl border border-white/10 shadow-2xl backdrop-blur-xl">
+                                <div className="flex flex-col gap-8">
+                                    <div className="flex flex-col md:flex-row gap-6 justify-center items-center">
+                                        <CountrySelector
+                                            countries={countries}
+                                            selectedCountry={selectedCountry}
+                                            selectedRegion={selectedRegion}
+                                            onCountryChange={setSelectedCountry}
+                                            onRegionChange={setSelectedRegion}
+                                        />
+                                        {selectedRegion && (
+                                            <DaysSelector
+                                                numberOfDays={numberOfDays}
+                                                onDaysChange={setNumberOfDays}
+                                            />
+                                        )}
+                                    </div>
+
+                                    {selectedRegion && (
+                                        <button
+                                            onClick={handleStartPlanning}
+                                            className="w-full md:w-auto mx-auto px-8 py-4 bg-gradient-to-r from-primary-500 to-coral-500 hover:from-primary-400 hover:to-coral-400 text-white text-lg font-bold rounded-xl shadow-lg shadow-primary-500/25 transition-all duration-300 transform hover:scale-105 flex items-center gap-3"
+                                        >
+                                            <Sparkles className="w-6 h-6" />
+                                            Start Planning
+                                        </button>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Features Preview */}
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-20 opacity-80">
+                            <div className="text-center p-6">
+                                <div className="w-16 h-16 mx-auto bg-blue-500/20 rounded-2xl flex items-center justify-center mb-4 text-blue-400">
+                                    <Globe className="w-8 h-8" />
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Explore the World</h3>
+                                <p className="text-gray-400">Discover new destinations and hidden gems with our curated database.</p>
+                            </div>
+                            <div className="text-center p-6">
+                                <div className="w-16 h-16 mx-auto bg-purple-500/20 rounded-2xl flex items-center justify-center mb-4 text-purple-400">
+                                    <Sparkles className="w-8 h-8" />
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">AI Optimization</h3>
+                                <p className="text-gray-400">Let our AI organize your schedule for the most efficient and enjoyable trip.</p>
+                            </div>
+                            <div className="text-center p-6">
+                                <div className="w-16 h-16 mx-auto bg-green-500/20 rounded-2xl flex items-center justify-center mb-4 text-green-400">
+                                    <Map className="w-8 h-8" />
+                                </div>
+                                <h3 className="text-white font-bold text-lg mb-2">Visual Itineraries</h3>
+                                <p className="text-gray-400">See your entire trip mapped out with beautiful, interactive visualizations.</p>
+                            </div>
+                        </div>
                     </div>
                 )}
 
-                {/* Country, Region & Days Selection */}
-                <div className="mb-8">
-                    <div className="flex flex-wrap gap-4">
-                        <CountrySelector
-                            countries={countries}
-                            selectedCountry={selectedCountry}
-                            selectedRegion={selectedRegion}
-                            onCountryChange={setSelectedCountry}
-                            onRegionChange={setSelectedRegion}
-                        />
-                        {selectedRegion && (
-                            <DaysSelector
-                                numberOfDays={numberOfDays}
-                                onDaysChange={setNumberOfDays}
-                            />
-                        )}
-                    </div>
-                </div>
-
-                {/* Itinerary Builder */}
-                {selectedRegion && dailyItineraries.length > 0 && (
+                {/* Planner State */}
+                {isPlanning && (
                     <div className="animate-slide-up">
                         {/* Features Grid */}
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
@@ -158,7 +223,7 @@ export default function HomePage() {
                         {/* Current Day Title */}
                         <div className="mb-6">
                             <h2 className="text-3xl font-display font-bold text-white">
-                                Day {currentDay} - {selectedRegion.name}
+                                Day {currentDay} - {selectedRegion?.name}
                             </h2>
                             <p className="text-gray-400 mt-1">Select activities for each time slot</p>
                         </div>
@@ -179,7 +244,7 @@ export default function HomePage() {
                                     else categoryFilter = ['nightlife', 'cafe', 'dinner'];
 
                                     const suitableActivities = activities.filter(
-                                        (a) => a.regionId === selectedRegion.id && categoryFilter.includes(a.category)
+                                        (a) => selectedRegion && a.regionId === selectedRegion.id && categoryFilter.includes(a.category)
                                     );
 
                                     return (
@@ -197,19 +262,11 @@ export default function HomePage() {
                     </div>
                 )}
 
-                {/* Global Tools */}
-                <PackingList />
+                {/* Global Tools that should always be available if planning or maybe moved? 
+                    Actually PackingList makes sense in Planner. 
+                */}
+                {isPlanning && <PackingList />}
 
-                {/* Empty State */}
-                {!selectedRegion && selectedCountry && (
-                    <div className="text-center py-20 glass rounded-2xl animate-slide-up">
-                        <div className="w-20 h-20 rounded-full bg-primary-500/20 mx-auto mb-4 flex items-center justify-center">
-                            <Map className="w-10 h-10 text-primary-400" />
-                        </div>
-                        <h3 className="text-xl font-display font-semibold text-white mb-2">Select a Region</h3>
-                        <p className="text-gray-400">Choose a region from the dropdown above to start planning your itinerary</p>
-                    </div>
-                )}
             </main>
 
             {/* Footer */}
@@ -220,4 +277,5 @@ export default function HomePage() {
             </footer>
         </div>
     );
+
 }
