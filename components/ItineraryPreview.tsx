@@ -55,11 +55,18 @@ export default function ItineraryPreview({ trip }: ItineraryPreviewProps) {
                             {/* Card */}
                             <div className="flex gap-4">
                                 <div className="text-xs font-mono text-gray-500 pt-0.5 w-12">{slot.time}</div>
-                                <div className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5">
+                                <div className="flex-1 bg-white/5 rounded-xl p-3 border border-white/5 relative group cursor-pointer hover:bg-white/10 transition-colors">
                                     <div className="flex items-start justify-between gap-4">
-                                        <div>
-                                            <h4 className="font-bold text-gray-200">{slot.activity!.name}</h4>
-                                            <div className="flex items-center gap-3 mt-1 text-xs text-gray-400">
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-bold text-gray-200 truncate">{slot.activity!.name}</h4>
+
+                                            {/* Location Detail */}
+                                            <div className="flex items-start gap-1 mt-1 text-sm text-gray-400">
+                                                <MapPin className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
+                                                <span className="truncate">{slot.activity!.location.address}</span>
+                                            </div>
+
+                                            <div className="flex items-center gap-3 mt-2 text-xs text-gray-400">
                                                 <span className="flex items-center gap-1">
                                                     <Clock className="w-3 h-3" /> {slot.activity!.duration}m
                                                 </span>
@@ -76,8 +83,18 @@ export default function ItineraryPreview({ trip }: ItineraryPreviewProps) {
                                         <img
                                             src={slot.activity!.imageUrl}
                                             alt={slot.activity!.name}
-                                            className="w-12 h-12 rounded-lg object-cover bg-slate-800"
+                                            className="w-12 h-12 rounded-lg object-cover bg-slate-800 shrink-0"
                                         />
+                                    </div>
+
+                                    {/* Hover Notes Tooltip */}
+                                    <div className="absolute left-[calc(100%+1rem)] top-1/2 -translate-y-1/2 w-64 opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-300 z-50 transform -translate-x-4 group-hover:translate-x-0">
+                                        <div className="glass p-3 rounded-xl border border-white/10 shadow-2xl backdrop-blur-xl text-sm text-gray-200 relative">
+                                            <div className="font-bold text-white mb-1">Author Notes:</div>
+                                            <div className="line-clamp-4">{slot.activity!.description}</div>
+                                            {/* Tooltip Arrow pointing left */}
+                                            <div className="absolute top-1/2 -left-2 -translate-y-1/2 w-4 h-4 glass border-l border-t border-white/10 transform -rotate-45"></div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

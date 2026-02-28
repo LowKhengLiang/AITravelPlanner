@@ -1,6 +1,7 @@
 import { create } from 'zustand';
 import { CommunityPost, User } from '@/types';
 import { TripState } from '@/types';
+import { activities } from '@/data/mockData';
 
 interface CommunityStore {
     posts: CommunityPost[];
@@ -22,6 +23,8 @@ const MOCK_USER: User = {
     followers: 124,
     bio: 'Love exploring new cities and finding hidden gems.'
 };
+
+const tokyoActivities = activities.filter(a => a.regionId === 'tokyo');
 
 const MOCK_POSTS: CommunityPost[] = [
     {
@@ -45,10 +48,39 @@ Enjoy!
         tags: ['Japan', 'Food', 'City'],
         createdAt: '2024-03-15T10:00:00Z',
         itinerarySnapshot: {
-            selectedCountry: { id: 'jp', name: 'Japan', currency: 'JPY', regions: [] },
-            selectedRegion: { id: 'tokyo', name: 'Tokyo', countryId: 'jp', description: 'Capital', coordinates: { lat: 35.6762, lng: 139.6503 } },
+            selectedCountry: { id: 'jp', name: 'Japan', code: 'JP', flag: '🇯🇵', regions: [] },
+            selectedRegion: { id: 'tokyo', name: 'Tokyo', countryId: 'jp', coordinates: [139.6503, 35.6762], popularActivities: [] },
             numberOfDays: 3,
-            dailyItineraries: [], // Mock data would go here
+            dailyItineraries: [
+                {
+                    dayNumber: 1,
+                    date: '2024-05-01',
+                    region: { id: 'tokyo', name: 'Tokyo', countryId: 'jp', coordinates: [139.6503, 35.6762], popularActivities: [] },
+                    timeSlots: [
+                        { id: '1-1', time: '09:00', activity: tokyoActivities[1] }, // Breakfast
+                        { id: '1-2', time: '13:00', activity: tokyoActivities[3] }, // Lunch
+                        { id: '1-3', time: '19:00', activity: tokyoActivities[6] }, // Dinner
+                    ]
+                },
+                {
+                    dayNumber: 2,
+                    date: '2024-05-02',
+                    region: { id: 'tokyo', name: 'Tokyo', countryId: 'jp', coordinates: [139.6503, 35.6762], popularActivities: [] },
+                    timeSlots: [
+                        { id: '2-1', time: '10:00', activity: tokyoActivities[2] }, // Temple
+                        { id: '2-2', time: '14:00', activity: tokyoActivities[4] }, // Shopping
+                    ]
+                },
+                {
+                    dayNumber: 3,
+                    date: '2024-05-03',
+                    region: { id: 'tokyo', name: 'Tokyo', countryId: 'jp', coordinates: [139.6503, 35.6762], popularActivities: [] },
+                    timeSlots: [
+                        { id: '3-1', time: '11:00', activity: tokyoActivities[5] }, // Cafe
+                        { id: '3-2', time: '20:00', activity: tokyoActivities[7] }, // Nightlife
+                    ]
+                }
+            ],
             currentDay: 1,
             startDate: '2024-05-01',
             totalBudget: 2000,
@@ -66,7 +98,25 @@ Enjoy!
         stats: { likes: 128, imports: 23, rating: 4.5, ratingCount: 12 },
         tags: ['Japan', 'History', 'Nature'],
         createdAt: '2024-03-20T14:30:00Z',
-        itinerarySnapshot: {} as any // simplified for mock
+        itinerarySnapshot: {
+            selectedCountry: { id: 'jp', name: 'Japan', code: 'JP', flag: '🇯🇵', regions: [] },
+            selectedRegion: { id: 'kyoto', name: 'Kyoto', countryId: 'jp', coordinates: [135.7681, 35.0116], popularActivities: [] },
+            numberOfDays: 1,
+            dailyItineraries: [
+                {
+                    dayNumber: 1,
+                    date: '2024-05-10',
+                    region: { id: 'kyoto', name: 'Kyoto', countryId: 'jp', coordinates: [135.7681, 35.0116], popularActivities: [] },
+                    timeSlots: []
+                }
+            ],
+            currentDay: 1,
+            startDate: '2024-05-10',
+            totalBudget: 500,
+            currency: 'USD',
+            selectedDestinations: [],
+            optimizedRoute: []
+        }
     }
 ];
 

@@ -21,12 +21,45 @@ export default function PostPage() {
     if (!post) return <div className="text-white p-8">Post not found</div>;
 
     const handleImport = async () => {
-        if (confirm("This will overwrite your current planner. Continue?")) {
+        if (confirm("This will overwrite your current planner's itinerary. Continue?")) {
             setIsImporting(true);
             await new Promise(resolve => setTimeout(resolve, 800));
 
+            // Deep copy to avoid mutating store state directly
+            const importedSnapshot = JSON.parse(JSON.stringify(post.itinerarySnapshot));
+
+            // Smart Date Import Logic
+            const userStartDateStr = useTripStore.getState().startDate;
+            const postStartDateStr = importedSnapshot.startDate;
+
+            if (userStartDateStr && postStartDateStr) {
+                // Use UTC to prevent local timezone offsets from messing up the day gap calculation
+                const userDate = new Date(`${userStartDateStr}T00:00:00Z`);
+                const postDate = new Date(`${postStartDateStr}T00:00:00Z`);
+
+                // Calculate difference in milliseconds
+                const diffTime = userDate.getTime() - postDate.getTime();
+                const diffDays = Math.round(diffTime / (1000 * 3600 * 24));
+
+                // Offset all daily itineraries
+                importedSnapshot.dailyItineraries.forEach((day: any) => {
+                    if (day.date) {
+                        const originalDayDate = new Date(`${day.date}T00:00:00Z`);
+                        originalDayDate.setUTCDate(originalDayDate.getUTCDate() + diffDays);
+                        // Format back to YYYY-MM-DD safely
+                        day.date = originalDayDate.toISOString().split('T')[0];
+                    }
+                });
+
+                // Update start date of snapshot to match user's
+                importedSnapshot.startDate = userStartDateStr;
+            } else if (!userStartDateStr && postStartDateStr) {
+                // If user hasn't set a start date, inherit the post's start date
+                useTripStore.getState().setStartDate(postStartDateStr);
+            }
+
             // Robust Hydration
-            loadTrip(post.itinerarySnapshot);
+            loadTrip(importedSnapshot);
 
             // Trigger import logic in community store (stats)
             importItinerary(post.id);
