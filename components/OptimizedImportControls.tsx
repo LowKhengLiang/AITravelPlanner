@@ -33,7 +33,7 @@ export default function OptimizedImportControls() {
             <div className="text-sm text-gray-400 mb-4">
                 You have <strong>{selectedDestinations.length}</strong> items for a <strong>{numberOfDays}</strong> day trip.
                 {selectedDestinations.length / numberOfDays < 2 ? (
-                    <span className="text-orange-400 block mt-1">That's a bit empty! Try suggesting more.</span>
+                    <span className="text-orange-400 block mt-1">That&apos;s a bit empty! Try suggesting more.</span>
                 ) : (
                     <span className="text-green-400 block mt-1">Looks like a good pace!</span>
                 )}

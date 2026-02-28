@@ -48,7 +48,7 @@ export default function OptimizerRouteList() {
                                     <div className="p-3 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center gap-3">
                                         <BedDouble className="w-4 h-4 text-purple-400" />
                                         <div className="text-xs text-purple-300">
-                                            <span className="font-bold">Stay Nearby:</span> Suggested: "Grand Hotel & Spa"
+                                            <span className="font-bold">Stay Nearby:</span> Suggested: &quot;Grand Hotel &amp; Spa&quot;
                                         </div>
                                     </div>
                                 )}

@@ -93,7 +93,7 @@ export default function OptimizePage() {
 
                         <div className="glass p-6 rounded-xl">
                             <h2 className="text-lg font-bold text-white mb-2">1. Choose Destinations</h2>
-                            <p className="text-sm text-gray-400 mb-6">Select places you want to visit. We'll verify coordinates and proximity.</p>
+                            <p className="text-sm text-gray-400 mb-6">Select places you want to visit. We&apos;ll verify coordinates and proximity.</p>
                             <DestinationSelector />
                         </div>
 
