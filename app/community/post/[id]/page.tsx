@@ -92,9 +92,9 @@ export default function PostPage() {
                     </div>
                     <h1 className="text-5xl font-black text-white mb-6 leading-tight">{post.title}</h1>
 
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                         <div className="flex items-center gap-4">
-                            <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-lg">
+                            <div className="w-12 h-12 rounded-full bg-slate-700 flex items-center justify-center text-lg shrink-0">
                                 {post.author.avatar}
                             </div>
                             <div>
@@ -103,20 +103,20 @@ export default function PostPage() {
                             </div>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-center gap-3 w-full md:w-auto">
                             <button
                                 onClick={() => toggleLike(post.id)}
-                                className="px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 flex items-center gap-2 transition-all font-medium"
+                                className="flex-1 md:flex-none px-5 py-3 rounded-xl bg-white/5 border border-white/10 text-white hover:bg-white/10 flex items-center justify-center gap-2 transition-all font-medium text-sm md:text-base shrink-0"
                             >
-                                <Heart className={`w-5 h-5 ${post.stats.likes > 0 ? 'fill-pink-500 text-pink-500' : ''}`} />
-                                {post.stats.likes} Likes
+                                <Heart className={`w-5 h-5 shrink-0 ${post.stats.likes > 0 ? 'fill-pink-500 text-pink-500' : ''}`} />
+                                <span className="whitespace-nowrap">{post.stats.likes} Likes</span>
                             </button>
                             <button
                                 onClick={handleImport}
                                 disabled={isImporting}
-                                className="px-6 py-3 rounded-xl bg-white text-slate-900 font-bold hover:bg-gray-200 transition-all flex items-center gap-2 shadow-lg shadow-white/10"
+                                className="flex-1 md:flex-none px-6 py-3 rounded-xl bg-white text-slate-900 font-bold hover:bg-gray-200 transition-all flex items-center justify-center gap-2 shadow-lg shadow-white/10 text-sm md:text-base shrink-0"
                             >
-                                {isImporting ? 'Importing...' : <><CalendarCheck className="w-5 h-5" /> Import Itinerary</>}
+                                {isImporting ? 'Importing...' : <><CalendarCheck className="w-5 h-5 shrink-0" /> <span className="whitespace-nowrap">Import Itinerary</span></>}
                             </button>
                         </div>
                     </div>

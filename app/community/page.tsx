@@ -31,15 +31,15 @@ export default function CommunityPage() {
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
             {/* Header */}
             <header className="sticky top-0 z-50 glass border-b border-white/10">
-                <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-                    <Link href="/" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors">
-                        <ArrowLeft className="w-5 h-5" />
-                        Back to Planner
+                <div className="container mx-auto px-4 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <Link href="/" className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors self-start md:self-auto">
+                        <ArrowLeft className="w-5 h-5 shrink-0" />
+                        <span className="font-medium">Back to Planner</span>
                     </Link>
-                    <h1 className="text-xl font-display font-bold text-white flex items-center gap-2">
+                    <h1 className="text-xl font-display font-bold text-white flex items-center gap-2 text-center flex-wrap justify-center">
                         <span className="text-blue-400">Community</span> Explorations
                     </h1>
-                    <div className="w-24"></div>
+                    <div className="hidden md:block w-32"></div>
                 </div>
             </header>
 

@@ -62,14 +62,14 @@ export default function TimeSlot({
 
             {/* Selected Activity Indicator */}
             {timeSlot.activity && (
-                <div className="mt-3 px-4 py-2 glass rounded-lg border border-primary-500/30 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <div className="w-2 h-2 bg-primary-500 rounded-full animate-pulse" />
-                        <span className="text-sm text-gray-300">
+                <div className="mt-3 px-4 py-3 glass rounded-lg border border-primary-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-2 w-full sm:w-auto">
+                        <div className="w-2 h-2 shrink-0 bg-primary-500 rounded-full animate-pulse" />
+                        <span className="text-sm text-gray-300 truncate">
                             Selected: <span className="text-white font-medium">{timeSlot.activity.name}</span>
                         </span>
                     </div>
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4">
                         <div className="flex items-center gap-2">
                             <span className="text-sm text-gray-400">Cost:</span>
                             <input

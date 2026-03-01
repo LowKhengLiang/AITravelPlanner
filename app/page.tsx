@@ -55,64 +55,64 @@ export default function HomePage() {
             {/* Header */}
             <header className="sticky top-0 z-50 glass border-b border-white/10">
                 <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+                    <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+                        <div className="flex items-center gap-3 w-full lg:w-auto justify-center lg:justify-start">
+                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center shrink-0">
                                 <Plane className="w-6 h-6 text-white" />
                             </div>
-                            <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-primary-400 to-coral-400 bg-clip-text text-transparent">
+                            <h1 className="text-2xl font-display font-bold bg-gradient-to-r from-primary-400 to-coral-400 bg-clip-text text-transparent truncate flex-1 min-w-0">
                                 AI Travel Planner
                             </h1>
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        <div className="flex flex-wrap items-center justify-center lg:justify-end gap-2 md:gap-3 w-full lg:w-auto">
                             {isPlanning && (
                                 <>
                                     <button
                                         onClick={() => setIsPlanning(false)}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-white/10 text-gray-300 font-medium hover:bg-white/10 transition-all duration-300"
-                                        title="Change Country/Region"
+                                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg glass border border-white/10 text-gray-300 font-medium hover:bg-white/10 transition-all duration-300 text-sm md:text-base"
+                                        title="Change Destination"
                                     >
-                                        <Home className="w-4 h-4" />
-                                        <span className="hidden md:inline">Change Destination</span>
+                                        <Home className="w-4 h-4 shrink-0" />
+                                        <span className="hidden sm:inline">Destination</span>
                                     </button>
 
                                     <button
                                         onClick={handleAutoPopulate}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105"
+                                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg bg-gradient-to-r from-purple-500 to-pink-500 text-white font-medium hover:shadow-lg hover:shadow-purple-500/50 transition-all duration-300 hover:scale-105 text-sm md:text-base"
                                     >
-                                        <Sparkles className="w-4 h-4" />
-                                        Auto-Fill
+                                        <Sparkles className="w-4 h-4 shrink-0" />
+                                        <span className="hidden sm:inline">Auto-Fill</span>
                                     </button>
                                     <Link
                                         href="/optimize"
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105"
+                                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white font-medium hover:shadow-lg hover:shadow-cyan-500/50 transition-all duration-300 hover:scale-105 text-sm md:text-base"
                                     >
-                                        <Sparkles className="w-4 h-4" />
-                                        Optimize
+                                        <Sparkles className="w-4 h-4 shrink-0" />
+                                        <span className="hidden sm:inline">Optimize</span>
                                     </Link>
                                     <Link
                                         href="/community"
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-blue-400/30 text-blue-300 font-medium hover:bg-blue-400/20 transition-all duration-300"
+                                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg glass border border-blue-400/30 text-blue-300 font-medium hover:bg-blue-400/20 transition-all duration-300 text-sm md:text-base"
                                     >
-                                        <Globe className="w-4 h-4" />
-                                        Community
+                                        <Globe className="w-4 h-4 shrink-0" />
+                                        <span className="hidden sm:inline">Community</span>
                                     </Link>
                                     <PublishButton />
                                     <Link
                                         href="/map"
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-primary-500/30 text-white font-medium hover:bg-primary-500/20 transition-all duration-300"
+                                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg glass border border-primary-500/30 text-white font-medium hover:bg-primary-500/20 transition-all duration-300 text-sm md:text-base"
                                     >
-                                        <Map className="w-4 h-4" />
-                                        View Map
+                                        <Map className="w-4 h-4 shrink-0" />
+                                        <span className="hidden sm:inline">Map</span>
                                     </Link>
                                     <button
                                         onClick={clearActivities}
-                                        className="flex items-center gap-2 px-4 py-2 rounded-lg glass border border-red-500/30 text-red-400 font-medium hover:bg-red-500/20 transition-all duration-300"
+                                        className="flex items-center gap-2 px-3 py-2 md:px-4 md:py-2 rounded-lg glass border border-red-500/30 text-red-400 font-medium hover:bg-red-500/20 transition-all duration-300 text-sm md:text-base"
                                         title="Clear activities only"
                                     >
-                                        <Trash2 className="w-4 h-4" />
-                                        Clear
+                                        <Trash2 className="w-4 h-4 shrink-0" />
+                                        <span className="hidden sm:inline">Clear</span>
                                     </button>
                                 </>
                             )}

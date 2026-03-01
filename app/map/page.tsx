@@ -69,18 +69,18 @@ export default function MapPage() {
             {/* Header */}
             <header className="glass border-b border-white/10">
                 <div className="container mx-auto px-4 py-4">
-                    <div className="flex items-center justify-between">
+                    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
                         <Link
                             href="/"
-                            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors"
+                            className="flex items-center gap-2 text-gray-300 hover:text-white transition-colors self-start md:self-auto"
                         >
                             <ArrowLeft className="w-5 h-5" />
                             <span className="font-medium">Back to Planning</span>
                         </Link>
-                        <h1 className="text-xl font-display font-bold text-white">
+                        <h1 className="text-xl font-display font-bold text-white text-center">
                             Day {currentDay} - Map View
                         </h1>
-                        <div className="w-32" /> {/* Spacer for centering */}
+                        <div className="hidden md:block w-32" /> {/* Spacer for centering */}
                     </div>
                 </div>
             </header>
@@ -90,7 +90,7 @@ export default function MapPage() {
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     {/* Map Area */}
                     <div className="lg:col-span-2">
-                        <div className="glass rounded-2xl overflow-hidden h-[600px] relative">
+                        <div className="glass rounded-2xl overflow-hidden h-[400px] lg:h-[600px] relative">
                             {/* Simple visual map representation */}
                             <div
                                 ref={mapRef}
@@ -205,8 +205,8 @@ export default function MapPage() {
                                 <div
                                     key={activity.id}
                                     className={`glass p-4 rounded-lg cursor-pointer transition-all duration-300 ${selectedActivity?.id === activity.id
-                                            ? 'ring-2 ring-primary-500 shadow-lg shadow-primary-500/30'
-                                            : 'hover:bg-white/10'
+                                        ? 'ring-2 ring-primary-500 shadow-lg shadow-primary-500/30'
+                                        : 'hover:bg-white/10'
                                         }`}
                                     onClick={() => setSelectedActivity(activity)}
                                 >
